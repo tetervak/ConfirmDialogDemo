@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Confirm Dialog Demo</string>
+    <string name="about">About</string>
+    <string name="author">Alex Tetervak, Sheridan College, 2019</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="not_confirmed">Not Confirmed</string>
+    <string name="confirm">Confirm</string>
+    <string name="reset">Reset</string>
+    <string name="confirm_message">Do you want to confirm it?</string>
+
+</resources>

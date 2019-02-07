@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="gap2">32dp</dimen>
+    <dimen name="gap1">16dp</dimen>
+</resources>
