@@ -2,9 +2,10 @@
 package ca.javateacher.confirmdialogdemo;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -41,34 +42,31 @@ public class MainActivity extends AppCompatActivity
     }
 
     Button confirmButton = findViewById(R.id.confirm_button);
-    confirmButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        ConfirmFragment confirmFragment
-            = ConfirmFragment.newInstance(0, getString(R.string.confirm_message));
-        confirmFragment.show(getSupportFragmentManager(), CONFIRM_FRAGMENT);
-      }
-    });
+    confirmButton.setOnClickListener(v -> showConfirmDialog());
 
     Button resetButton = findViewById(R.id.reset_button);
-    resetButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mConfirmed = false;
-        mMessageView.setText(R.string.not_confirmed);
-      }
-    });
+    resetButton.setOnClickListener(v -> reset());
+  }
 
+  private void showConfirmDialog() {
+    ConfirmFragment confirmFragment
+        = ConfirmFragment.newInstance(0, getString(R.string.confirm_message));
+    confirmFragment.show(getSupportFragmentManager(), CONFIRM_FRAGMENT);
+  }
+
+  private void reset() {
+    mConfirmed = false;
+    mMessageView.setText(R.string.not_confirmed);
   }
 
   @Override
-  protected void onSaveInstanceState(Bundle outState) {
+  protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putBoolean(STATUS, mConfirmed);
   }
 
-  @Override
-  public void onConfirmed(int dialogID) {
+  @SuppressWarnings("unused")
+  public void confirm(int dialogID) {
     mConfirmed = true;
     mMessageView.setText(R.string.confirmed);
   }
@@ -87,7 +85,6 @@ public class MainActivity extends AppCompatActivity
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    //noinspection SimplifiableIfStatement
     if (id == R.id.about) {
       AboutFragment aboutFragment = AboutFragment.newInstance();
       aboutFragment.show(getSupportFragmentManager(), ABOUT_FRAGMENT);

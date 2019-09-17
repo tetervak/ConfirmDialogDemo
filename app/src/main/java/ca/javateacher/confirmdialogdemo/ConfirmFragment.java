@@ -3,12 +3,11 @@ package ca.javateacher.confirmdialogdemo;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.app.AlertDialog;
 
 public class ConfirmFragment extends DialogFragment {
 
@@ -17,8 +16,9 @@ public class ConfirmFragment extends DialogFragment {
 
   private int mDialogID;
 
+  @SuppressWarnings("unused")
   interface ConfirmListener {
-    void onConfirmed(int dialogID);
+    void confirm(int dialogID);
   }
   private ConfirmListener mConfirmListener;
 
@@ -28,7 +28,7 @@ public class ConfirmFragment extends DialogFragment {
   }
 
   @Override
-  public void onAttach(Context context) {
+  public void onAttach(@NonNull Context context) {
     super.onAttach(context);
     if (context instanceof ConfirmListener) {
       mConfirmListener = (ConfirmListener) context;
@@ -70,18 +70,16 @@ public class ConfirmFragment extends DialogFragment {
     builder.setTitle(R.string.app_name);
     builder.setMessage(message);
 
-    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int button) {
-            if (mConfirmListener != null) {
-              mConfirmListener.onConfirmed(mDialogID);
-            }
-          }
-        }
-    );
+    builder.setPositiveButton(android.R.string.yes, (dialog, button) -> confirm());
 
     builder.setNegativeButton(android.R.string.no, null);
     return builder.create(); // return the AlertDialog
+  }
+
+  private void confirm() {
+    if (mConfirmListener != null) {
+      mConfirmListener.confirm(mDialogID);
+    }
   }
 
 }
